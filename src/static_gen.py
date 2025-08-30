@@ -2,6 +2,15 @@ import os
 import shutil
 from markdown_to_html_node import markdown_to_html_node
 
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    contents = os.listdir(dir_path_content)
+    for content in contents:
+        content = os.path.join(dir_path_content, content)
+        if os.path.isdir(content):
+            generate_pages_recursive(content, template_path, os.path.join(dest_dir_path, os.path.basename(content)))
+        if os.path.isfile(content):
+            generate_page(content, template_path, dest_dir_path)
+
 def generate_page(from_path, template_path, dest_path):
     print(f'Generating page from "{from_path}" to "{dest_path}"')
     if not os.path.isfile(from_path):
@@ -16,13 +25,13 @@ def generate_page(from_path, template_path, dest_path):
     content = html_nodes.to_html()
     title = extract_title(md)
     
-    final = template.replace("{{ Title }}", "AHHHH")
+    final = template.replace("{{ Title }}", title)
     final = template.replace("{{ Content }}", content)
     
     if not os.path.isdir(dest_path):
         os.makedirs(dest_path, exist_ok=True)
     
-    with open(os.path.join(dest_path, "index.html"), "w") as file:
+    with open(os.path.join(dest_path, f"index.html"), "w") as file:
         file.write(final)
 
 def extract_title(markdown):

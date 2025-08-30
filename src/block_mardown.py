@@ -80,7 +80,6 @@ def markdown_to_blocks(markdown):
             continue
         block = block.strip()
         output.append(block)
-        #print(f"block -----> {block}")
     return output
        
 

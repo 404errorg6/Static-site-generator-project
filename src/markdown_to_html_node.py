@@ -28,7 +28,6 @@ def block_type_to_html_node(block, block_type):
         return ParentNode("p", children=child_nodes)
 
     if block_type == BlockType.QUOTE:
-        print(f"block -----> {block}")
         quotes = block.split("\n")
         child_nodes = []
         for quote in quotes:
