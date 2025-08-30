@@ -25,7 +25,9 @@ class LeafNode(HTMLNode):
         super().__init__(tag, value, None, props)
 
     def to_html(self):
-        if not self.value:
+        void_elements = ["img", "br", "hr", "input", "link", "meta", "base", "embed", "param", "source", "track", "area", "col"]
+
+        if self.tag not in void_elements and not self.value:
             raise ValueError("value is required for LeafNode")
         if not self.tag:
             return self.value
@@ -38,9 +40,10 @@ class LeafNode(HTMLNode):
         if self.tag == "img":
             return f'<{self.tag}{self.props_to_html()}/>'
         
-        if self.tag in ['i', 'b', 'p', "code", "span", "div"]:
+        if self.tag in ['i', 'b', 'p', "code", "span", "div", "pre"
+                        ]:
             return f'<{self.tag}>{self.value}</{self.tag}>'
-        raise TypeError(f'Uknown tag "{self.tag}"')
+        raise TypeError(f'Unknown tag "{self.tag}"')
 
 class ParentNode(HTMLNode):
     def __init__(self, tag, children, props=None):

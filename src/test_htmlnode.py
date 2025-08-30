@@ -76,21 +76,16 @@ class TestLeafNode(unittest.TestCase):
         node = LeafNode("p", "Hello, world!")
         self.assertEqual(node.to_html(), "<p>Hello, world!</p>")
 
-    def test_2(self):
-        props = {"href": "google.com", "target": "Alien-X"}
-        node = LeafNode("a", "google", props)
+    def test_leaf_to_html_a(self):
+        node = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
         self.assertEqual(
-                node.to_html(),
-                '<a href="google.com" target="Alien-X">google</a>'
-                )
+            node.to_html(),
+            '<a href="https://www.google.com">Click me!</a>',
+        )
 
-    def test_3(self):
-        props = {"src": "rick.astley", "alt": "Your most respected man"}
-        node = LeafNode("img", "nothing sus", props)
-        self.assertEqual(
-                node.to_html(),
-                '<img src="rick.astley" alt="Your most respected man"/>'
-                )
+    def test_leaf_to_html_no_tag(self):
+        node = LeafNode(None, "Hello, world!")
+        self.assertEqual(node.to_html(), "Hello, world!") 
 
     def test_5(self):
         with self.assertRaises(ValueError):
